@@ -1,3 +1,4 @@
+-- Group Members: Michael Zavalza and Kennedy Vandel
 import HW1types
 import Data.List hiding (intersect)
 type Bag a = [(a,Int)]
@@ -80,7 +81,9 @@ suc a ((x,xs):ys)   | a == x    = [xs] ++ suc a ys
 
 --2c
 detach :: Node -> Graph -> Graph
-detach = undefined
+detach n [] = []
+detach n ((x,xs):ys)  | x == n || xs == n = [] ++ detach n ys
+                      | otherwise   = [(x,xs)] ++ detach n ys
 
 --helper for 2e
 cycloop :: Int -> Graph
