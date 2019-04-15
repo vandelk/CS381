@@ -1,7 +1,19 @@
 -- Group Members: Michael Zavalza and Kennedy Vandel
 import HW1types
 import Data.List hiding (intersect)
+
 type Bag a = [(a,Int)]
+
+type Number = Int
+type Point = (Number,Number)
+type Length = Number
+data Shape = Pt Point
+      | Circle Point Length
+      | Rect Point Length Length
+deriving Show
+type Figure = [Shape]
+type BBox = (Point,Point)
+
 
 --1a
 ins :: Eq a => a -> Bag a -> Bag a
@@ -23,7 +35,7 @@ bag :: Eq a => [a] -> Bag a
 bag []     = []
 bag (x:xs) = ins x (bag xs)
 
-
+--helper function for 1d
 listsame :: Eq a => [a] -> [a] -> Bool
 listsame [] [] = True
 listsame x []  = False
@@ -40,7 +52,6 @@ subbag x y  = listsame (unbag x) (unbag (isbag x y))
 unbag :: Eq a => Bag a -> [a]
 unbag []          = []
 unbag ((x,xs):ys) = [x] ++ unbag (del x ((x,xs):ys))
-
 
 intersect :: Eq a => [a] -> [a] -> [a]
 intersect [] _ = []
@@ -85,7 +96,7 @@ detach n [] = []
 detach n ((x,xs):ys)  | x == n || xs == n = [] ++ detach n ys
                       | otherwise   = [(x,xs)] ++ detach n ys
 
---helper for 2e
+--helper for 2d
 cycloop :: Int -> Graph
 cycloop 1 = []
 cycloop x = cycloop (x-1) ++ [((x-1),x)]
