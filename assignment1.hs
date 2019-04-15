@@ -58,19 +58,39 @@ size []            = 0
 size ((x,xs):ys)   = xs + size ys
 
 
---2a
+--just for testing
+g :: Graph
+g = [(1,2),(1,3),(2,3),(2,4),(3,4)]
+h :: Graph
+h = [(1,2),(1,3),(2,1),(3,2),(4,4)]
 
+
+--2a
+nodes :: Graph -> [Node]
+nodes []          = []
+nodes ((x,xs):ys) = norm ([x] ++ [xs] ++ nodes ys)
 
 
 --2b
-
+suc :: Node -> Graph -> [Node]
+suc a [] = []
+suc a ((x,xs):ys)   | a == x    = [xs] ++ suc a ys
+                    | otherwise = suc a ys
 
 
 --2c
+detach :: Node -> Graph -> Graph
+detach = undefined
 
-
+--helper for 2e
+cycloop :: Int -> Graph
+cycloop 1 = []
+cycloop x = cycloop (x-1) ++ [((x-1),x)]
 
 --2d
+cyc :: Int -> Graph
+cyc x = cycloop x ++ [(x,1)]
+
 
 
 --3a
