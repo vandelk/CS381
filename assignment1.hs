@@ -10,7 +10,8 @@ type Length = Number
 data Shape = Pt Point
       | Circle Point Length
       | Rect Point Length Length
-deriving Show
+      deriving Show
+
 type Figure = [Shape]
 type BBox = (Point,Point)
 
@@ -107,24 +108,35 @@ cyc x = cycloop x ++ [(x,1)]
 
 
 
+f = [Pt (4,4), Circle (5,5) 3, Rect (3,3) 7 2]
+
 --3a
-
-
+width :: Shape -> Length
+width (Pt (a,b))       = 0
+width (Circle (a,b) y) = (2*y)
+width (Rect (a,b) y z)  | y > z = y
+                        | otherwise = z
 
 --3b
-
+bbox :: Shape -> BBox
+bbox = undefined
 
 
 --3c
-
+minX :: Shape -> Number
+minX = undefined
 
 
 --3d
-
+move :: Shape -> Point -> Shape
+move = undefined
 
 
 --3e
-
+alignLeft :: Figure -> Figure
+alignLeft = undefined
 
 
 --3f
+inside :: Shape -> Shape -> Bool
+inside = undefined
