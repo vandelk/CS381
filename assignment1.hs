@@ -139,9 +139,9 @@ addPt (a,b) (c,d) = (a+c, b+d)
 
 move :: Shape -> Point -> Shape
 -- This is what i was thinking but didn't work
--- move (Pt (a,b)) (c,d) = (Pt (addPt (a,b) (c,d)))
--- move (Circle (a,b) y) (c,d) = (Circle (addPt (a,b) (c,d)) y)
--- move (Rect (a,b) y z) (c,d) = (Rect (addPt (a,b) (c,d)) y z)
+-- move (Pt (a,b)) (c,d) = (addPt (a,b) (c,d))
+-- move (Circle (a,b) y) (c,d) = (addPt (a,b) (c,d))
+-- move (Rect (a,b) y z) (c,d) = (addPt (a,b) (c,d))
 
 --3e
 alignLeft :: Figure -> Figure
