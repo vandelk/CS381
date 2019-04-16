@@ -107,7 +107,7 @@ cyc :: Int -> Graph
 cyc x = cycloop x ++ [(x,1)]
 
 
-
+-- for testing
 f = [Pt (4,4), Circle (5,5) 3, Rect (3,3) 7 2]
 
 --3a
@@ -119,18 +119,29 @@ width (Rect (a,b) y z)  | y > z = y
 
 --3b
 bbox :: Shape -> BBox
-bbox = undefined
-
+bbox (Pt (a,b)) = ((a,b), (a,b))
+bbox (Circle (a,b) y) = ((a-y,b-y), (a+y,b+y))
+bbox (Rect (a,b) y z) = ((a,b), (a+y,b+z))
 
 --3c
 minX :: Shape -> Number
-minX = undefined
+minX (Pt (a,b)) = a
+minX (Circle (a,b) y) = (a-y)
+minX (Rect (a,b) y z) = a
 
 
 --3d
-move :: Shape -> Point -> Shape
-move = undefined
 
+--helper function
+addPt :: Point -> Point -> Point
+addPt (a,b) (c,d) = (a+c, b+d)
+
+
+move :: Shape -> Point -> Shape
+-- This is what i was thinking but didn't work
+-- move (Pt (a,b)) (c,d) = (Pt (addPt (a,b) (c,d)))
+-- move (Circle (a,b) y) (c,d) = (Circle (addPt (a,b) (c,d)) y)
+-- move (Rect (a,b) y z) (c,d) = (Rect (addPt (a,b) (c,d)) y z)
 
 --3e
 alignLeft :: Figure -> Figure
