@@ -138,16 +138,31 @@ addPt (a,b) (c,d) = (a+c, b+d)
 
 
 move :: Shape -> Point -> Shape
--- This is what i was thinking but didn't work
--- move (Pt (a,b)) (c,d) = (addPt (a,b) (c,d))
--- move (Circle (a,b) y) (c,d) = (addPt (a,b) (c,d))
--- move (Rect (a,b) y z) (c,d) = (addPt (a,b) (c,d))
+move (Pt (a,b)) (c,d)       = Pt (addPt (a,b) (c,d))
+move (Circle (a,b) y) (c,d) = Circle (addPt (a,b) (c,d)) y
+move (Rect (a,b) y z) (c,d) = Rect (addPt (a,b) (c,d)) y z
 
 --3e
+
+--helper function
+moveToX :: Number -> Shape -> Shape
+moveToX x (Pt (a,b))       = (Pt (x,b))
+moveToX x (Circle (a,b) y) = (Circle (x,b) y)
+moveToX x (Rect (a,b) y z) = (Rect (x,b) y z)
+
 alignLeft :: Figure -> Figure
-alignLeft = undefined
+alignLeft fig = map (moveToX 0) fig
 
 
---3f
-inside :: Shape -> Shape -> Bool
-inside = undefined
+
+--3f Unfinished, would need to add checks for the 6 cases that can return true
+--inside :: Shape -> Shape -> Bool
+--inside (Pt (a,b)) (Pt (c,d))                 = False
+--inside (Pt (a,b)) (Rect (c,d) y z)           =
+--inside (Pt (a,b)) (Circle (c,d) y)           =
+--inside (Circle (a,b) y) (Pt (c,d))           = False
+--inside (Circle (a,b) y) (Rect (c,d) y2 z2)   =
+--inside (Circle (a,b) y) (Circle (c,d) y2)    =
+--inside (Rect (a,b) y z) (Pt (c,d))           = False
+--inside (Rect (a,b) y z) (Rect (c,d) y2 z2)   =
+--inside (Rect (a,b) y z) (Circle (c,d) y2)    =
