@@ -9,3 +9,16 @@ type Path  = [Node]
 
 norm :: Ord a => [a] -> [a]
 norm = sort . nub
+
+-- type Number = Int
+--
+-- type Point = (Number,Number)
+-- type Length = Number
+--
+-- data Shape = Pt Point
+--            | Circle Point Length
+--            | Rect Point Length Length
+--            deriving Show
+--
+-- type Figure = [Shape]
+-- type BBox = (Point,Point)
