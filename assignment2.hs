@@ -30,11 +30,11 @@ steps x = undefined
 --2a
 data Circuit = Ct Gates Links
 
-data Gates = Gt Int --add this shit
+data Gates = Gt [(Int, GateFN)]
 
 data GateFN = And | Or | Xor | Not
 
-data Links = Lnk Int --add this shit
+data Links = Lnk [ ((Int, Int),(Int, Int)) ] --add this shit
 
 
 --2b --add this shit
