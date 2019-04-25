@@ -38,7 +38,8 @@ data Links = Lnk [ ((Int, Int),(Int, Int)) ] --add this shit
 
 
 --2b --add this shit
-
+c1 :: Circuit
+c1 = Ct (Gt [(1, Xor),(2, And)]) (Lnk [((1,1),(2,1)), ((1,2),(2,2))])
 
 
 --2c --add this shit
