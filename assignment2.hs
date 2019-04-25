@@ -23,7 +23,8 @@ vector = Def "vector" (MPars "pos1"(Par "pos2")) (AND (Pen Down)(AND (Call "vect
 
 --1c
 steps :: Int -> Cmd
-steps x = AND (steps (x-1))(AND (Moveto (NUM((x-1)),NUM(x)))(Moveto (NUM(x),NUM(x))))
+steps 0 = Pen Up
+steps x = AND (steps (x-1)) (AND (Moveto (NUM (x-1), NUM(x))) (Moveto (NUM(x),NUM(x))))
 
 
 --2a
@@ -33,7 +34,7 @@ data Gates = Gt [(Int, GateFN)]
 
 data GateFN = And | Or | Xor | Not
 
-data Links = Lnk [ ((Int, Int),(Int, Int)) ] --add this shit
+data Links = Lnk [ ((Int, Int),(Int, Int)) ]
 
 
 --2b
@@ -41,11 +42,11 @@ c1 :: Circuit
 c1 = Ct (Gt [(1, Xor),(2, And)]) (Lnk [((1,1),(2,1)), ((1,2),(2,2))])
 
 
---2c --add this shit
+--2c
 
 
 
-
+-- 3 --
 data Expr = N Int
           | Plus Expr Expr
           | Times Expr Expr
@@ -56,7 +57,6 @@ data Exp = Num Int
          | Apply Op [Exp]
 
 --3a
-
 x :: Exp
 x = Apply Multiply [(Apply Negate [ (Apply Add [Num 3, Num 4]) ]) , Num 7]
 
