@@ -6,7 +6,7 @@ data Cmd = Pen Mode
          | Moveto (Pos, Pos)
          | Def String (Pars) Cmd
          | Call String (Vals)
-         | Cmd Cmd
+         | AND Cmd Cmd
 
 data Mode = Up | Down
 
@@ -17,15 +17,14 @@ data Pars = MPars String Pars| Par String
 data Vals = MVals Int Vals | Val Int
 
 
---1b --add this shit
+--1b
+vector = Def "vector" (MPars "pos1"(Par "pos2")) (AND (Pen Down)(AND (Call "vector" (MVals 1(Val 2))) (AND (Moveto ((NUM 2),(NUM 2))) (Pen Up))))
 
 
-
---1c --add this shit
-
-
+--1c
 steps :: Int -> Cmd
-steps x = undefined
+steps x = AND (steps (x-1))(AND (Moveto (NUM((x-1)),NUM(x)))(Moveto (NUM(x),NUM(x))))
+
 
 --2a
 data Circuit = Ct Gates Links
@@ -37,7 +36,7 @@ data GateFN = And | Or | Xor | Not
 data Links = Lnk [ ((Int, Int),(Int, Int)) ] --add this shit
 
 
---2b --add this shit
+--2b
 c1 :: Circuit
 c1 = Ct (Gt [(1, Xor),(2, And)]) (Lnk [((1,1),(2,1)), ((1,2),(2,2))])
 
@@ -69,4 +68,7 @@ x = Apply Multiply [(Apply Negate [ (Apply Add [Num 3, Num 4]) ]) , Num 7]
 
 --3c
 translate :: Expr -> Exp
-translate = undefined
+translate (N y) = Num y
+translate (Plus y z) = Apply Add [translate y, translate z]
+translate (Times y z) = Apply Multiply [translate y, translate z]
+translate (Neg y) = Apply Negate [translate y]
