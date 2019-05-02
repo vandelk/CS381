@@ -28,12 +28,32 @@ sem1 _ _ = Nothing
 sem :: Prog -> D1
 sem x y = sem1 x (Just (y))
 
-
 --2a
+type Prog2 = [Cmd2]
+
+data Cmd2 = LD2 Int
+          | ADD2
+          | MULT2
+          | DUP2
+          | DEF String [Cmd2]
+          | CALL String
 
 --2b
+type Macros = [(String,Prog)]
+type State = (Stack,Macros)
 
 --2c
+sem2 :: Prog2 -> State -> State
+sem2 [] x = x
+sem2 (x:xs) i = sem2 xs (semCmd2 x i)
+
+semCmd2 :: Cmd2 -> State -> State
+semCmd2 (LD2 i)     (x,m) = (x ++ [i],m)
+-- semCmd2 ADD2        (x,m) =
+-- semCmd2 MULT2       (x,m) =
+-- semCmd2 DUP2        (x,m) =
+-- semCmd2 (DEF str c) (x,m) =
+--semCmd2 (CALL str)  (x,m) =
 
 --3
 data CMD = Pen Mode
@@ -42,10 +62,18 @@ data CMD = Pen Mode
 
 data Mode = Up | Down
 
-type State = (Mode,Int,Int)
+type STATE = (Mode,Int,Int)
 
-semS :: CMD -> State -> (State,Lines)
+semS :: CMD -> STATE -> (STATE,Lines)
 semS = undefined
+-- semS (Seq x y) s = (fst(semS y (fst semS x s))) , ((snd(semS x s)) ++ (snd(semS y (fst(semS x s)))))
+-- semS (Pen Up) (Up,x,y) = ((Up,x,y), [])
+-- semS (Pen Up) (Down,x,y) = ((Up,x,y), [])
+-- semS (Pen Down) (Up,x,y) = ((Down,x,y), [])
+-- semS (Pen Down) (Down,x,y) = ((Down,x,y), [])
+-- semS (MoveTo x y) (Up,w,z) = ((Up,x,y),[])
+-- semS (MoveTo x y) (Down,w,z) = ((Down,x,y),[x,y,w,z])
 
-sem' :: CMD ->Lines
-sem' = undefined
+
+sem' :: CMD -> Lines
+sem' x = snd(semS x (Up,0,0))
