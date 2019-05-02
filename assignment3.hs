@@ -10,18 +10,25 @@ data Cmd = LD Int
          | DUP
 
 type Stack = [Int]
-type D = Stack -> Stack
+type D = Maybe Stack -> Maybe Stack
+type D1 = Stack -> Maybe Stack
 
 semCmd :: Cmd -> D
-semCmd (LD i)     x = [i] ++ x
-semCmd ADD  (x:y:z) = [x+y] ++ z
-semCmd MULT (x:y:z) = [x*y] ++ z
-semCmd DUP    (x:y) = [x,x] ++ y
-semCmd _ _ = []
+semCmd (LD i)     (Just (x)) = Just ([i] ++ x)
+semCmd ADD  (Just ((x:y:z))) = Just ([x+y] ++ z)
+semCmd MULT (Just ((x:y:z))) = Just ([x*y] ++ z)
+semCmd DUP   (Just ((x:y))) = Just ([x,x] ++ y)
+semCmd _ _ = Nothing
 
-sem :: Prog -> D
-sem []     x = x
-sem (x:xs) i = sem xs (semCmd x i)
+sem1 :: Prog -> D
+sem1 []     (Just (x)) = (Just (x))
+sem1 (x:xs) (Just (i)) = sem1 xs (semCmd x (Just (i)))
+sem1 _ _ = Nothing
+
+sem :: Prog -> D1
+sem x y = sem1 x (Just (y))
+
+
 --2a
 
 --2b
