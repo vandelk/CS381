@@ -39,7 +39,7 @@ data Cmd2 = LD2 Int
           | CALL String
 
 --2b
-type Macros = [(String,Prog)]
+type Macros = [(String,Prog2)]
 type State = (Stack,Macros)
 
 --2c
@@ -48,12 +48,12 @@ sem2 [] x = x
 sem2 (x:xs) i = sem2 xs (semCmd2 x i)
 
 semCmd2 :: Cmd2 -> State -> State
-semCmd2 (LD2 i)     (x,m) = (x ++ [i],m)
--- semCmd2 ADD2        (x,m) =
--- semCmd2 MULT2       (x,m) =
--- semCmd2 DUP2        (x,m) =
--- semCmd2 (DEF str c) (x,m) =
---semCmd2 (CALL str)  (x,m) =
+semCmd2 (LD2 i)     (x,m) = ([i] ++ x,m)
+semCmd2 ADD2        ((x:y:z),m) = ([x+y] ++ z,m)
+semCmd2 MULT2       ((x:y:z),m) = ([x+y] ++ z,m)
+semCmd2 DUP2        ((x:y),m) = ([x,x] ++ y,m)
+semCmd2 (DEF str c) (x,m) = (x, m ++ [(str, c)])
+semCmd2 (CALL str)  (x,m) = undefined
 
 --3
 data CMD = Pen Mode
