@@ -65,14 +65,13 @@ data Mode = Up | Down
 type STATE = (Mode,Int,Int)
 
 semS :: CMD -> STATE -> (STATE,Lines)
-semS = undefined
--- semS (Seq x y) s = (fst(semS y (fst semS x s))) , ((snd(semS x s)) ++ (snd(semS y (fst(semS x s)))))
--- semS (Pen Up) (Up,x,y) = ((Up,x,y), [])
--- semS (Pen Up) (Down,x,y) = ((Up,x,y), [])
--- semS (Pen Down) (Up,x,y) = ((Down,x,y), [])
--- semS (Pen Down) (Down,x,y) = ((Down,x,y), [])
--- semS (MoveTo x y) (Up,w,z) = ((Up,x,y),[])
--- semS (MoveTo x y) (Down,w,z) = ((Down,x,y),[x,y,w,z])
+semS (Seq x y) s = (fst(semS y (fst(semS x s))), (snd(semS x s)++(snd(semS y (fst(semS x s))))))
+semS (Pen Up) (Up,x,y) = ((Up,x,y), [])
+semS (Pen Up) (Down,x,y) = ((Up,x,y), [])
+semS (Pen Down) (Up,x,y) = ((Down,x,y), [])
+semS (Pen Down) (Down,x,y) = ((Down,x,y), [])
+semS (MoveTo x y) (Up,w,z) = ((Up,x,y),[])
+semS (MoveTo x y) (Down,w,z) = ((Down,x,y),[(x,y,w,z)])
 
 
 sem' :: CMD -> Lines
