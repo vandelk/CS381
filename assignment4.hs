@@ -93,11 +93,11 @@ rect (LR a b) = case rect a of --first shape
                                                        False -> Nothing
 
 --3a
---1 The type of f is a list of the type of y. The type of g is just a list.
---2 In a statically typed language, all of the return types must match.
+--1 The type of f is of type x, which is a list of the type that y is. The type of g is a list of y's.
+--2 In a statically typed language, all of the return types must match. For f, one of the returns must be of type x, so the other must also be.
+--  For g, all the returns are either a [y] or an empty list, so the return type must be [y]
 --3 g is more general
---4 g has a different type from f because of its second line.
---In that case, it can return an empty list, without any specific data type attached to it.
+--4 g has a different type from f because it returns a [y] instead of an x
 
 --3b
 h (x:xs) ((z,w):ys) = (w:xs)
@@ -107,3 +107,8 @@ h (x:xs) ((z,w):ys) = (w:xs)
 
 --3d
 --No, you can't. It would extremely difficult to come up with a function that takes a value of some arbitrary type a and returns a value of some other arbitrary type b.
+
+g x y = if not (null x) then [] else [y]
+g [] y = []
+
+f x y = if null x then [y] else x
