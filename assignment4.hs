@@ -64,11 +64,33 @@ data Shape = X
 type BBox = (Int, Int)
 
 bbox :: Shape -> BBox
-bbox = undefined
+bbox X                       = (1,1)
+bbox (TD a b) | ax > bx      = (ax, ay + by)
+              | ax <= bx     = (bx, ay + by)
+              where (ax, ay) = bbox a
+                    (bx, by) = bbox b
+bbox (LR a b) | ay > by      = (ax + bx, ay)
+              | ay <= by     = (ax + bx, by)
+              where (ax, ay) = bbox a
+                    (bx, by) = bbox b
 
 --2b
 rect :: Shape -> Maybe BBox
-rect = undefined
+rect X        = Just (1,1)
+rect (TD a b) = case rect a of --first shape
+                     Nothing -> Nothing
+                     Just (ax, ay) -> case rect b of --second shape
+                                      Nothing -> Nothing
+                                      Just (bx, by) -> case (ax == bx) of
+                                                       True -> Just (ax, ay + by)
+                                                       False -> Nothing
+rect (LR a b) = case rect a of --first shape
+                     Nothing -> Nothing
+                     Just (ax, ay) -> case rect b of --second shape
+                                      Nothing -> Nothing
+                                      Just (bx, by) -> case (ay == by) of
+                                                       True -> Just (ax + bx, ay)
+                                                       False -> Nothing
 
 --3a
 --1
