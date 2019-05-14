@@ -1,5 +1,5 @@
 -- Team Members: Kennedy Vandel and Michael Zavalza
-
+import Data.Maybe
 type Prog = [Cmd]
 type Stack = [Int]
 
@@ -24,19 +24,33 @@ rankC INC = (1,1)
 rankC SWAP = (2,2)
 rankC (POP x) = (x, 0)
 
+validcmd :: CmdRank -> Rank -> Bool
+validcmd (a,b) x | a > x = False
+                 | otherwise = True
+
+affectonrank :: CmdRank -> Int -> Int
+affectonrank (a,b) x = (x - a + b)
+
 rank :: Prog -> Rank -> Maybe Rank
-rank (x:xs) r = undefined
+rank [] r     = Just r
+rank (x:xs) r | validcmd (rankC x) r = rank xs (affectonrank (rankC x) r )
+              | otherwise = Nothing
 
 rankP :: Prog -> Maybe Rank
-rankP = undefined
+rankP x = rank x 0
 
 
+
+--1b
 sem :: Prog -> Stack -> Stack
 sem p = undefined
 
---1b
-semStatTC :: Prog -> Stack -> Stack
-semStatTC p | rankP p >= 0 = sem p
+validexp :: Prog -> Bool
+validexp p = isJust (rankP p)
+
+semStatTC :: Prog -> Maybe (Stack -> Stack)
+semStatTC p | validexp p = Just (sem p)
+            | otherwise = Nothing
 
 -- The type of the new sem function would be Prog -> Stack -> Stack.
 --It can be simplified to not use the Maybe data type because it would never be called in a situation that would be an error.
