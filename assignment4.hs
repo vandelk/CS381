@@ -93,16 +93,17 @@ rect (LR a b) = case rect a of --first shape
                                                        False -> Nothing
 
 --3a
---1
---2
---3
---4
+--1 The type of f is a list of the type of y. The type of g is just a list.
+--2 In a statically typed language, all of the return types must match.
+--3 g is more general
+--4 g has a different type from f because of its second line.
+--In that case, it can return an empty list, without any specific data type attached to it.
 
 --3b
-
+h (x:xs) ((z,w):ys) = (w:xs)
 
 --3c
 
 
 --3d
---Yes, you can. The result of the function would be another function of type a ->b
+--No, you can't. It would extremely difficult to come up with a function that takes a value of some arbitrary type a and returns a value of some other arbitrary type b.
