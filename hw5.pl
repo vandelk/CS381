@@ -31,7 +31,10 @@ meet(X,Y) :- enroll(X,C), where(C,P), when(C,T), enroll(Y,D), where(D,P), when(D
 
 % Exercise_2
 
-%rdup(L,M) :-
+rdup([],[]).
+rdup([X],[X]).
+rdup([X,X|L],M) :- rdup([X|L],M).
+rdup([X,Y|L],[X|M]) :- rdup([Y|L],M), X \= Y.
 
 %flat(L,F) :-
 
