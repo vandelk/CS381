@@ -36,6 +36,8 @@ rdup([X],[X]).
 rdup([X,X|L],M) :- rdup([X|L],M).
 rdup([X,Y|L],[X|M]) :- rdup([Y|L],M), X \= Y.
 
-%flat(L,F) :-
+flat([],[]).
+flat([X|M],L) :- append(X,M,Y), flat(Y,L).
+flat([X|M],[X|L]) :- \+ is_list(X), flat(M,L).
 
 %project(X,Y,Z) :-
