@@ -1,6 +1,4 @@
 
-/* Exercise 1 */
-
 when(275,10).
 when(261,12).
 when(381,11).
@@ -19,9 +17,21 @@ enroll(mary,261).
 enroll(john,381).
 enroll(jim,399).
 
+%Exercise_1
 
+schedule(W,P,T) :- enroll(W,C) , when(C,T), where(C,P).
 
+usage(P,T) :- where(C,P), when(C,T).
 
-/* Exercise 2 */
+conflict(X,Y) :- where(X,L), when(X,T), where(Y,L), when(Y,T), X \= Y.
 
+meet(X,Y) :- enroll(X,C), enroll(Y,C), X \= Y.
+meet(X,Y) :- enroll(X,C), where(C,P), when(C,T), enroll(Y,D), where(D,P), when(D,S), S =:= T+1, X \= Y.
 
+%Exercise_2
+
+%rdup(L,M) :-
+
+%flat(L,F) :-
+
+%project(X,Y,Z) :-
